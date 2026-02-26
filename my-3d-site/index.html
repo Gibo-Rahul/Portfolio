@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My room</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #111; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        canvas { display: block; }
+        
+        /* --- CUSTOM CURSOR --- */
+        html, body { cursor: crosshair; } 
+
+        /* --- CUSTOM ORANGE GLOW SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { 
+            background: #ff9900; 
+            border-radius: 10px; 
+            border: 2px solid #111;
+            box-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #ffcc00; }
+        * { scrollbar-width: thin; scrollbar-color: #ff9900 #111; }
+
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* --- GLASSMORPHISM INFO WINDOW --- */
+        #info-window {
+            position: absolute;
+            width: 280px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.05);
+            color: white;
+            display: none;
+            pointer-events: none;
+            z-index: 90;
+        }
+
+        #info-window h2 { margin-top: 0; font-size: 1.3rem; letter-spacing: 1px; text-transform: uppercase; color: #00f2ff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
+        #info-window p { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; margin-bottom: 0; }
+
+        /* --- PORTFOLIO IFRAME OVERLAY --- */
+        #portfolio-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            border: 2px solid #ff9900;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(255, 153, 0, 0.7);
+            display: none;
+            z-index: 80;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+        }
+
+        /* --- MOBILE RESPONSIVE OVERRIDES --- */
+        @media screen and (max-width: 768px) {
+            #info-window {
+                width: 80%;
+                left: 50% !important;
+                right: auto !important;
+                top: 20px !important;
+                transform: translateX(-50%);
+                padding: 15px;
+            }
+
+            #portfolio-overlay {
+                width: 95vw !important;
+                height: 70vh !important;
+                transform: translate(-50%, -50%) scale(1) !important;
+            }
+        }
+
+        /* Transparent shield to catch clicks outside the Iframe */
+        #click-shield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 75;
+        }
+
+        #camera-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 5;
+        }
+        #camera-overlay button {
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-overlay">
+        <h1>Desk Scene</h1>
+        <p>Click the Objects to zoom in</p>
+    </div>
+
+    <div id="info-window">
+        <h2 id="info-title">Object Name</h2>
+        <p id="info-text">Description goes here.</p>
+    </div>
+
+    <div id="click-shield"></div>
+    <iframe id="portfolio-overlay" frameborder="0"></iframe>
+
+    <div id="camera-overlay"></div>
+    
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
